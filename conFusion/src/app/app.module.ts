@@ -11,6 +11,7 @@ import 'hammerjs';
 import { MatCardModule} from '@angular/material/card';
 import { MatButtonModule} from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatDialogModule } from '@angular/material/dialog';
 
 //Components
 import { MenuComponent } from './menu/menu.component';
@@ -26,6 +27,7 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 //Routers
 import { AppRoutingModule } from './app-routing/App-routing.module';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { AppRoutingModule } from './app-routing/App-routing.module';
     FooterComponent,
     HomeComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -49,10 +52,14 @@ import { AppRoutingModule } from './app-routing/App-routing.module';
     MatCardModule,
     MatButtonModule,
     FontAwesomeModule,
+    MatDialogModule,
   ],
   providers: [
     DishService,
     PromotionService,
+  ],
+  entryComponents: [
+    LoginComponent,
   ],
   bootstrap: [AppComponent]
 })
