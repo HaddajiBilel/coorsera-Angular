@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatSliderModule} from '@angular/material/slider';
 
 //Components
 import { MenuComponent } from './menu/menu.component';
@@ -62,14 +63,14 @@ import { LoginComponent } from './login/login.component';
     FontAwesomeModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSliderModule,
 
   ],
   providers: [
