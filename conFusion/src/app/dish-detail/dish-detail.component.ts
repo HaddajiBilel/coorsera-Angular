@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Dish} from '../shared/dish';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -17,6 +17,13 @@ export class DishDetailComponent implements OnInit {
 
   commentForm: FormGroup;
   commentstr: Comment;
+
+  dish: Dish;
+  dishIds: string[];
+  prev: string;
+  next: string;
+  errMess: string;
+  dishCopy: Dish;
 
   @ViewChild('fform') feedbackFormDirective;
 
@@ -38,23 +45,23 @@ export class DishDetailComponent implements OnInit {
   };
 
   
-  dish: Dish;
-  dishIds: string[];
-  prev: string;
-  next: string;
 
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
     private location: Location,
-    private CForm:FormBuilder) {
+    private CForm:FormBuilder,
+    @Inject('BaseURL') public BaseURL) {
       this.createForm();
 
     }
 
     ngOnInit() {
-      this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
-      this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      this.dishservice.getDishIds()
+        .subscribe(dishIds => this.dishIds = dishIds);
+      this.route.params
+        .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
+        .subscribe(dish => { this.dish = dish; this.dishCopy = dish ;this.setPrevNext(dish.id); },
+          errmess => this.errMess = <any>errmess );
     }
   
     setPrevNext(dishId: string) {
@@ -108,7 +115,13 @@ export class DishDetailComponent implements OnInit {
       this.commentstr = this.commentForm.value;
       console.log(this.commentstr);
       this.commentstr.date = new Date().toString();
-      this.dish.comments.push(this.commentstr);
+      this.dishCopy.comments.push(this.commentstr);
+      this.dishservice.putDish(this.dishCopy)
+        .subscribe(dish => {
+          this.dish = dish;
+          this.dishCopy = dish
+        },
+        errmess => {this.dish = null; this.dishCopy = null; this.errMess=<any>errmess;});
       this.commentForm.reset({
         author: '',
         comment: '',
